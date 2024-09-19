@@ -11,7 +11,7 @@ import csv
 import time
 
 @pytest.fixture()
-    def test1(browser):
+def test1(browser):
 
     print("Test Execution Started")
 

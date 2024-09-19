@@ -10,12 +10,17 @@ import pandas as pd
 import csv
 import time
 
-def test_dummy():
-    pass
+#Fixture for Chrome
+@pytest.fixture(scope="class")
+def chrome_driver_init(request):
+    chrome_driver = webdriver.Chrome()
+    request.cls.driver = chrome_driver
+    yield
+    chrome_driver.close()
 
-@pytest.mark.usefixtures()
+@pytest.mark.usefixtures("chrome_driver_init")
 class TestQuote:
-    def testQuote(browser):
+    def testQuote(self):
 
         print("Test Execution Started")
 
@@ -24,7 +29,7 @@ class TestQuote:
         options.add_argument('--ignore-certificate-errors')
         options.add_argument("--headless=new")  # for Chrome >= 109
 
-        browser = webdriver.Remote(
+        self.browser = webdriver.Remote(
             command_executor='http://localhost:4444/wd/hub',
             options=options
         )
@@ -33,7 +38,7 @@ class TestQuote:
         # browser = webdriver.Firefox()
 
         # Navigate to TMX
-        browser.get("https://www.m-x.ca/en/trading/data/quotes")
+        self.browser.get("https://www.m-x.ca/en/trading/data/quotes")
 
         # Defining the columns to read
         quoteOptions = ['symbolOEQ', 'symbolETF', 'symbolSSF']  # Select name
@@ -46,15 +51,15 @@ class TestQuote:
             for index, row in data.iterrows():
                 # element = browser.find_element(By.ID,'page-content') # Find the top element of the page
                 # browser.execute_script("arguments[0].scrollIntoView();", element) # We scroll back to top
-                browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + Keys.HOME)
-                dropdown_equity = browser.find_element(By.ID, (f'{q1}'))  # we select a quotes in the dropdown
+                self.browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + Keys.HOME)
+                dropdown_equity = self.browser.find_element(By.ID, (f'{q1}'))  # we select a quotes in the dropdown
                 select = Select(dropdown_equity)
                 select.select_by_value(row['symbol'])
 
-                clickOkBtn = browser.find_element(By.XPATH,
+                clickOkBtn = self.browser.find_element(By.XPATH,
                                                   "//select[@id='" + f'{q1}' + "']/following-sibling::div").click()  # Click OK button next to the select
 
-                quoteResult = browser.find_element(By.TAG_NAME, 'h2').text  # Validate if title match
+                quoteResult = self.browser.find_element(By.TAG_NAME, 'h2').text  # Validate if title match
                 assert quoteResult == row['title']
 
                 print(row['symbol'], row['title'])

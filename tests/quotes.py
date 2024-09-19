@@ -27,7 +27,6 @@ import time
 
     # Open Browser
     # browser = webdriver.Firefox()
-
     # Navigate to TMX
     browser.get("https://www.m-x.ca/en/trading/data/quotes")
 

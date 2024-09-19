@@ -24,15 +24,15 @@ class TestQuote:
 
         print("Test Execution Started")
 
-        options = webdriver.ChromeOptions()
-        options.add_argument('--ignore-ssl-errors=yes')
-        options.add_argument('--ignore-certificate-errors')
-        options.add_argument("--headless=new")  # for Chrome >= 109
+        #options = webdriver.ChromeOptions()
+        #options.add_argument('--ignore-ssl-errors=yes')
+        #options.add_argument('--ignore-certificate-errors')
+        #options.add_argument("--headless=new")  # for Chrome >= 109
 
-        self.browser = webdriver.Remote(
-            command_executor='http://localhost:4444/wd/hub',
-            options=options
-        )
+       # self.browser = webdriver.Remote(
+           # command_executor='http://localhost:4444/wd/hub',
+           # options=options
+        #)
 
         # Open Browser
         # browser = webdriver.Firefox()

@@ -19,7 +19,10 @@ def chrome_driver_init(request):
     chrome_driver.close()
 
 @pytest.mark.usefixtures("chrome_driver_init")
-class Test_Quote:
+class BasicTest:
+    pass
+
+class Test_Quote(BasicTest):
     def test_Quote(self):
 
         print("Test Execution Started")

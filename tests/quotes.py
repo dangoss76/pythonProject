@@ -10,6 +10,9 @@ import pandas as pd
 import csv
 import time
 
+def test_dummy():
+    pass
+
 @pytest.mark.usefixtures()
 class TestQuote:
     def testQuote(browser):

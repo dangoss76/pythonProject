@@ -1,3 +1,4 @@
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,6 +10,8 @@ import pandas as pd
 import csv
 import time
 
+@pytest.fixture()
+def test1(browser):
 print("Test Execution Started")
 
 options = webdriver.ChromeOptions()

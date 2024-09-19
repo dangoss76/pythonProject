@@ -64,5 +64,5 @@ class TestQuote:
 
                 print(row['symbol'], row['title'])
 
-        browser.quit()
+        self.browser.quit()
         print("Test Execution Successfully Completed!")

@@ -37,7 +37,7 @@ jobs:
     - name: Install dependencies
       run: python -m pip install --upgrade pip setuptools wheel
     - name: Running the Python script
-      run: python3 tests/quotes.py
+      run: python tests/quotes.py
     - name: Test with pytest
       run: |
         pytest

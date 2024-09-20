@@ -24,12 +24,12 @@ jobs:
         run: sudo apt-get install xvfb
 
       - name: Running the Python script
-        run: tests/quotes.py
+        run: python3 tests/quotes.py
         
       - name: Commit and Push The Results From Python Selenium Action
         run: |
          git config --global user.name "github-actions[bot]"
-         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+         git config --global user.email ""
          git add -A
          git commit -m "GitHub Actions Results added"
          git push

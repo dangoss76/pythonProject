@@ -24,7 +24,7 @@ jobs:
         run: sudo apt-get install xvfb
 
       - name: Running the Python script
-        run: python3 tests/quotes.py
+        run: pipenv run python3 tests/quotes.py
         
       - name: Commit and Push The Results From Python Selenium Action
         run: |

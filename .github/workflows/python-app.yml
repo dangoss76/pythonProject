@@ -18,4 +18,4 @@ jobs:
       - name: Install the necessary packages
         run: pip install requests webdriver-manager selenium pytest
       - name: Run tests
-        run: pipenv run python3 tests/quotes.py
+        run: python3 tests/quotes.py

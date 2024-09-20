@@ -21,7 +21,6 @@ browser = webdriver.Remote(
     options=options
 )
 
-# Open Browser
 # browser = webdriver.Firefox()
 
 # Navigate to TMX

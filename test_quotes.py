@@ -36,5 +36,4 @@ class TestExampleOne:
 
                 print(row['symbol'], row['title'])
 
-        browser.quit()
         print("Test Execution Successfully Completed!")

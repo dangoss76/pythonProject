@@ -39,6 +39,10 @@ def setup(request):
 print("Test Execution Started")
 
 @pytest.mark.usefixtures("setup")
+def test_title(self):
+    self.driver.get('https://www.delrayo.tech')
+    assert self.driver.title == "DelRayo.tech - Delrayo Tech"
+
 class TestExampleOne:
     def test_title(self):
 

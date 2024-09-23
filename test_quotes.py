@@ -10,7 +10,7 @@ class TestExampleOne:
 
         # Defining the columns to read
         quoteOptions = ['symbolOEQ', 'symbolETF', 'symbolSSF']  # Select name
-        quoteCSV = ['equity.csv', 'etf.csv', 'shareFutures.csv']  # CSV fie
+        quoteCSV = ['tests/csv/equity.csv', 'tests/csv/etf.csv', 'tests/csv/shareFutures.csv']  # CSV fie
 
         for q1, q2 in zip(quoteOptions, quoteCSV):
 

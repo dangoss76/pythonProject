@@ -21,8 +21,8 @@ class TestExampleOne:
             data = pd.read_csv(f'{q2}')
 
             for index, row in data.iterrows():
-                # element = browser.find_element(By.ID,'page-content') # Find the top element of the page
-                # browser.execute_script("arguments[0].scrollIntoView();", element) # We scroll back to top
+                element = self.driver.find_element(By.ID,'page-content') # Find the top element of the page
+                self.driver.execute_script("arguments[0].scrollIntoView();", element) # We scroll back to top
                 #self.driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL + Keys.HOME)
                 dropdown_equity = self.driver.find_element(By.ID, (f'{q1}'))  # we select a quotes in the dropdown
                 select = Select(dropdown_equity)

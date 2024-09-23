@@ -6,8 +6,8 @@ from selenium.webdriver.support.select import Select
 import pandas as pd
 @pytest.mark.usefixtures("setup")
 
-class TestExampleOne:
-    def test_title(self):
+class TestQuotesDropdown:
+    def test_quotes_dropdown(self):
 
         # Navigate to TMX
         self.driver.get("https://www.m-x.ca/en/trading/data/quotes")

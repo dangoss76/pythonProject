@@ -12,12 +12,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.12'
+          python-version: '3.9'
       - name: Install software
         run: sudo apt-get install -y chromium-browser
-      - name: Install Python dependencies
-        run: python -m pip install --upgrade pip pandas
       - name: Install the necessary packages
         run: pip install requests webdriver-manager selenium pytest
-      - name: Run tests
-        run: python3 tests/quotes.py
+      - name: Run the PytTest script
+        run: pytest -rA

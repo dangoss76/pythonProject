@@ -21,3 +21,16 @@ jobs:
         run: python -m pip install --upgrade pip pandas
       - name: Run the PytTest script
         run: pytest -rA
+      - name: TestRail CLI upload results
+        if: always()
+        run: |
+          pip install trcli
+          trcli -y \
+            -h https://dangoss.testrail.io/ \
+            --project "Python Test Project" \
+            -u dan@dgosselin.com \
+            -p T3str4il! \
+            parse_junit \
+            --title "Automated Tests from GitHub workflow" \
+            --run-description ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} \
+            -f "junit-report.xml"

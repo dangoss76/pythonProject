@@ -3,51 +3,53 @@ name: Testrail-Integration
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
+    branches:
+      - '*'
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  
+name: Run all frameworks
+
+env:
+  TESTRAIL_USER: dan@dgosselin.com
+  TESTRAIL_URL: https://dangoss.testrail.io
+  PROJECT_NAME: Python Test Project
+  TESTRAIL_USER_PW: T3str4il!
 
 jobs:
-    Run-Test:
-      runs-on: ubuntu-20.04
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-        - uses: actions/cache@v3
-          id: cache
-          with:
-            path: ~/.cache/pip
-            key: ${{ runner.os }}-pip-${{ hashFiles('**/requirement.txt') }}
-        - name: Install pip dependencies
-          run: |
-            pip install --upgrade pip
-            pip freeze > requirements.txt
-        - name: Run Test
-          run: pytest -rA
-        - name: Run Test and create report
-          run: python -m robot -d reports -x junit-report.xml "testcases/functional_tests"
-        - name: Run Robot Framework tests and generate report
-          run: |
-             echo "ROBOT_RC=$?" >> "$GITHUB_ENV" 
-        - name: Publish test results
-          uses: actions/upload-artifact@v4
-          with:
-            name: robot-test-results
-            path: results
-        - name: Setup Python
-          if: always()
-          uses: actions/setup-python@v4
-          with:
-            python-version: '3.10' 
-        - name: Execute TestRail CLI to upload results
-          if: always()
-          run: |
-            pip install trcli 
-            trcli -y \
-              -h "https://dangoss.testrail.io" \
-              --project "Python Test Prroject" \
-              --username "dan@dgosselin.com" \
-              --password "T3str4il!" \
-              parse_junit \
-              --title "Robot Framework Automated Tests" \
-              -f "reports/junit-report.xml"\
+
+  pytest:
+    name: Pytest
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIR: ~/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4.5.0
+        with:
+          python-version: '3.x'
+      - name: Execute Pytest tests
+        working-directory: ${{ env.WORKING_DIR }}
+        continue-on-error: true
+        run: |
+          pip install -r requirements.txt
+          pytest --junitxml "reports/junit-report.xml" "./tests"
+      - name: Execute TestRail CLI to upload results
+        working-directory: ${{ env.WORKING_DIR }}
+        run: |
+          pip install trcli
+          trcli -y \
+            -h ${{ env.TESTRAIL_URL }} \
+            --project "${{ env.PROJECT_NAME }}" \
+            -u ${{ env.TESTRAIL_USER }} \
+            -p "${{ env.TESTRAIL_USER_PW }}" \
+            parse_junit \
+            -f "reports/junit-report.xml" \
+            --section-id "45" \
+            --title "Pytest automated tests" \
+            --run-description ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

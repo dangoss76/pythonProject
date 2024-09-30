@@ -8,7 +8,7 @@ import pandas as pd
 
 class TestQuotesDropdown:
     def test_quotes_dropdown(self):
-
+        record_property("testrail_result_comment", "1. test the quotes dropdown")
         # Navigate to TMX
         self.driver.get("https://www.m-x.ca/en/trading/data/quotes")
 

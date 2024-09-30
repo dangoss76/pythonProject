@@ -44,10 +44,10 @@ jobs:
           run: |
             pip install trcli 
             trcli -y \
-              -h "https://<your testrail>.testrail.io" \
-              --project "<your project name>" \
-              --username "<your Username>" \
-              --password "<your Password>" \
+              -h "https://dangoss.testrail.io/" \
+              --project "Python Test Project" \
+              --username "dan@dgosselin.com" \
+              --password "T3str4il!" \
               parse_junit \
               --title "Robot Framework Automated Tests" \
               -f "reports/junit-report.xml"\

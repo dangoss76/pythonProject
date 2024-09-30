@@ -1,0 +1,55 @@
+name: Testrail-Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+name: Run all frameworks
+
+env:
+  TESTRAIL_USER: dan@dgosselin.com
+  TESTRAIL_URL: https://dangoss.testrail.io
+  PROJECT_NAME: Python Test Project
+  TESTRAIL_USER_PW: T3str4il!
+
+jobs:
+
+  pytest:
+    name: Pytest
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIR: ~/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4.5.0
+        with:
+          python-version: '3.x'
+      - name: Execute Pytest tests
+        working-directory: ${{ env.WORKING_DIR }}
+        continue-on-error: true
+        run: |
+          pip install -r requirements.txt
+          pytest --junitxml "reports/junit-report.xml" "./tests"
+      - name: Execute TestRail CLI to upload results
+        working-directory: ${{ env.WORKING_DIR }}
+        run: |
+          pip install trcli
+          trcli -y \
+            -h ${{ env.TESTRAIL_URL }} \
+            --project "${{ env.PROJECT_NAME }}" \
+            -u ${{ env.TESTRAIL_USER }} \
+            -p "${{ env.TESTRAIL_USER_PW }}" \
+            parse_junit \
+            -f "reports/junit-report.xml" \
+            --section-id "45" \
+            --title "Pytest automated tests" \
+            --run-description ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
